@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collectibles View Switcher</title>
+    <style>
+        :root {
+            --bg: #f8f9fa;
+            --accent: #4cc9f0;
+            --text: #333;
+            --gray: #888;
+            --card-bg: #fff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+        }
+
+        .container {
+            width: 400px;
+            text-align: center;
+        }
+
+        h2 { margin-bottom: 20px; color: var(--text); }
+
+        /* Segmented Control / Tabs */
+        .tabs {
+            background: #e9ecef;
+            padding: 5px;
+            border-radius: 12px;
+            display: inline-flex;
+            gap: 5px;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            color: var(--gray);
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 10px rgba(76, 201, 240, 0.3);
+        }
+
+        /* The Grid/List View Logic */
+        .content-area {
+            display: grid;
+            gap: 15px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* --- CARD VIEW (Default) --- */
+        .content-area.card-view {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* --- LIST VIEW --- */
+        .content-area.list-view {
+            grid-template-columns: 1fr;
+        }
+
+        /* --- PACK VIEW --- */
+        .content-area.pack-view {
+            grid-template-columns: 1fr;
+            justify-items: center;
+        }
+
+        /* Item Styling */
+        .item {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.4s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .item img {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 12px;
+            object-fit: cover;
+            transition: all 0.4s ease;
+        }
+
+        .info {
+            width: 100%;
+            text-align: left;
+            margin-top: 10px;
+            transition: all 0.4s ease;
+        }
+
+        .info h4 { margin: 5px 0; font-size: 14px; }
+        .info p { margin: 0; font-size: 12px; color: var(--gray); font-weight: bold; }
+
+        /* Logic for Switching Styles */
+        
+        /* List View Overrides */
+        .list-view .item {
+            flex-direction: row;
+            gap: 15px;
+        }
+        .list-view .item img {
+            width: 60px;
+            height: 60px;
+        }
+
+        /* Pack View Overrides (Stacking effect) */
+        .pack-view .item {
+            grid-area: 1 / 1 / 2 / 2; /* Stack on top of each other */
+            width: 200px;
+        }
+        .pack-view .item:nth-child(2) {
+            transform: translateY(10px) scale(0.95);
+            z-index: 1;
+        }
+        .pack-view .item:nth-child(1) {
+            transform: translateY(0) scale(1);
+            z-index: 2;
+        }
+        .pack-view .info {
+            text-align: center;
+        }
+
+        /* Hide specific info in pack view to mimic "2 Collectibles" label */
+        .pack-label { display: none; font-weight: bold; margin-top: 10px; }
+        .pack-view ~ .pack-label { display: block; }
+        
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Collectibles</h2>
+
+    <div class="tabs">
+        <button class="tab" onclick="setView('list', this)">
+            <i>☰</i> List view
+        </button>
+        <button class="tab active" onclick="setView('card', this)">
+            <i>⊞</i> Card view
+        </button>
+        <button class="tab" onclick="setView('pack', this)">
+            <i>📦</i> Pack view
+        </button>
+    </div>
+
+    <div id="content" class="content-area card-view">
+        <div class="item">
+            <img src="https://picsum.photos/200?random=1" alt="Art">
+            <div class="info">
+                <h4>Skilled Fingers Series</h4>
+                <p>0.855 ETH <span style="float:right; color:#ffd700;">#209</span></p>
+            </div>
+        </div>
+
+        <div class="item">
+            <img src="https://picsum.photos/200?random=2" alt="Art">
+            <div class="info">
+                <h4>Vibrant Vibes Series</h4>
+                <p>0.209 ETH <span style="float:right; color:#ffd700;">#808</span></p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="packSummary" class="pack-label">
+        2 Collectibles <br>
+        <span style="color: var(--gray); font-size: 14px;">1.064 ETH</span>
+    </div>
+</div>
+
+<script>
+    function setView(viewType, btn) {
+        // Update Buttons
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Update Content Class
+        const content = document.getElementById('content');
+        const summary = document.getElementById('packSummary');
+        
+        content.className = 'content-area ' + viewType + '-view';
+
+        // Toggle the "2 Collectibles" text visibility
+        if(viewType === 'pack') {
+            summary.style.display = 'block';
+        } else {
+            summary.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>

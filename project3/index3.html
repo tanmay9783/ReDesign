@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vynk Hero Section</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --nav-bg: #1a1a1a;
+            --text-main: #000000;
+            --text-muted: #666666;
+            --accent-blue: #007aff;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            margin-top: 20px;
+            background: var(--nav-bg);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 14px;
+            z-index: 100;
+        }
+
+        nav a { color: #ccc; text-decoration: none; transition: 0.3s; }
+        nav a:hover { color: white; }
+        .try-free-nav { font-weight: bold; border-left: 1px solid #444; padding-left: 15px; }
+
+        /* --- Hero Content --- */
+        .hero {
+            text-align: center;
+            margin-top: 80px;
+            max-width: 800px;
+            padding: 0 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #f0f0f0;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin: 0 0 20px 0;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .cta-btn {
+            background: #000;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .cta-btn:hover { transform: scale(1.05); }
+
+        /* --- Phone Mockup Section --- */
+        .mockup-container {
+            margin-top: 60px;
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            animation: slideUpLarge 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .phone {
+            width: 300px;
+            height: 600px;
+            background: white;
+            border-radius: 45px;
+            border: 10px solid #000;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Dynamic Island */
+        .island {
+            width: 100px;
+            height: 25px;
+            background: black;
+            border-radius: 20px;
+            position: absolute;
+            top: 15px;
+        }
+
+        .phone-content h2 { font-size: 24px; margin-top: 20px; }
+        .gradient-orb {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            filter: blur(20px);
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUpLarge {
+            from { opacity: 0; transform: translateY(100px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div style="width: 20px; height: 20px; background: white; border-radius: 50%;"></div>
+        <a href="#">Components</a>
+        <a href="#">Snippets</a>
+        <a href="#">Templates</a>
+        <a href="#" class="try-free-nav">Try for Free</a>
+    </nav>
+
+    <div class="hero">
+        <span class="badge">Join Our Waitlist and claim instant offer</span>
+        <h1>Transform Ideas into Reality With Vynk</h1>
+        <p class="subtitle">Roll up beautiful UIs effortlessly by using Vynk CLI in minutes so that you can focus on building the core of your product.</p>
+        <a href="#" class="cta-btn">Try for Free</a>
+    </div>
+
+    <div class="mockup-container">
+        <div class="phone">
+            <div class="island"></div>
+            <div class="gradient-orb"></div>
+            <div class="phone-content">
+                <h2>How can I help you today?</h2>
+            </div>
+            <div style="position: absolute; bottom: 20px; width: 80%; height: 40px; border: 1px solid #eee; border-radius: 20px; display: flex; align-items: center; padding-left: 15px; color: #ccc; font-size: 12px;">+ Ask anything...</div>
+        </div>
+    </div>
+
+</body>
+</html>
